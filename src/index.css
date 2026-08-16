@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#07090E] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+/* Glassmorphism & Futuristic Design Utilities */
+.glass-panel {
+  background: rgba(13, 17, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+  background: rgba(18, 24, 38, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 6px 24px 0 rgba(0, 240, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  background: rgba(10, 14, 23, 0.8);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+}
+
+.glow-text-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.glow-text-purple {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+.glow-border-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+.glow-border-purple {
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07090e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.5);
+}
+
+.subtract-width {
+  width: calc(100% - 18rem);
+}
