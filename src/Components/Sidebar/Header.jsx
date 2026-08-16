@@ -22,7 +22,7 @@ const Header = ({ showDrawer }) => {
   ];
 
   return (
-    <div className="flex items-center justify-between h-16 px-4 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-cyan-500/10 text-slate-100">
+    <div className="relative z-50 flex items-center justify-between h-16 px-4 bg-[#0B0F19]/80 backdrop-blur-xl border-b border-cyan-500/10 text-slate-100">
       {/* Left: Mobile Menu Button & Search */}
       <div className="flex items-center gap-4">
         <button
