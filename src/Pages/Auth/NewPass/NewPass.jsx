@@ -1,119 +1,124 @@
-import { Form, Input, Checkbox, Typography, message } from "antd";
-import { FaRegEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa6";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import brandlogo from "../../../assets/image/stone-logo.png";
+import { Sparkles, Lock, Eye, EyeOff, ShieldCheck, ArrowRight } from "lucide-react";
 
 const NewPass = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const onFinish = async (values) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+    setError("");
     setLoading(true);
-    const { email, newPassword, confirmPassword } = values;
-
-    // Simulate API call
     setTimeout(() => {
-      if (newPassword !== confirmPassword) {
-        message.error("Passwords do not match!");
-      } else {
-        message.success("Password changed successfully");
-        navigate("/sign-in");
-      }
       setLoading(false);
-    }, 1000);
+      navigate("/sign-in");
+    }, 1200);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f9fafb]">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-center w-full gap-2 mx-auto md:max-w-screen-md">
-          <Form
-            name="new-password"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            layout="vertical"
-            className="w-full max-w-lg px-6 py-10 mt-10 bg-white md:py-20 md:px-10 rounded-2xl"
-          >
-            <div className="mx-auto ">
-              <div className="flex justify-center "> 
-                <img  src={brandlogo} alt="brandlogo" className="w-40 h-40 my-3" />
-              </div>
-              <h2 className="mb-4 text-2xl font-bold text-gray-700 md:text-3xl">
-                Create New Password
-              </h2>
-              <Typography.Text className="text-base text-gray-600">
-                Create a new password. Ensure it differs from previous ones for
-                security
-              </Typography.Text>
-            </div>
+    <div className="flex items-center justify-center min-h-screen bg-[#07090E] p-4 relative overflow-hidden text-slate-100">
+      {/* Background glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            <Form.Item
-              name="newPassword"
-              label={<p className="text-md">New Password</p>}
-              rules={[
-                { required: true, message: "Please input your new password!" },
-              ]}
-            >
-              <div className="relative flex items-center">
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="New Password"
-                  className="text-md"
-                />
-                <div className="absolute right-0 pr-3">
-                  <button type="button" onClick={togglePasswordVisibility}>
-                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                  </button>
-                </div>
-              </div>
-            </Form.Item>
+      <div className="w-full max-w-md p-8 rounded-3xl glass-panel relative z-10 space-y-6 border border-cyan-500/20 shadow-[0_0_35px_rgba(0,240,255,0.12)]">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-[0_0_20px_rgba(0,240,255,0.4)] mb-2">
+            <Sparkles className="w-8 h-8 text-black" />
+          </div>
+          <h1 className="text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 glow-text-cyan">
+            GENERATE NEW CREDENTIAL
+          </h1>
+          <p className="text-xs text-slate-400 font-mono">
+            Create a high-entropy security password for your administrator account
+          </p>
+        </div>
 
-            <Form.Item
-              name="confirmPassword"
-              label={<p className="text-md">Confirm Password</p>}
-              rules={[
-                { required: true, message: "Please confirm your password!" },
-              ]}
-            >
-              <div className="relative flex items-center">
-                <Input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  className="text-md"
-                />
-                <div className="absolute right-0 pr-3">
-                  <button
-                    type="button"
-                    onClick={toggleConfirmPasswordVisibility}
-                  >
-                    {showConfirmPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-                  </button>
-                </div>
-              </div>
-            </Form.Item>
+        {error && (
+          <div className="p-3 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-mono text-center">
+            {error}
+          </div>
+        )}
 
-            <Form.Item className="mt-8 text-center">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <div>
+            <label className="block text-slate-300 font-mono mb-1.5">New Security Password</label>
+            <div className="relative">
+              <Lock className="absolute w-4 h-4 text-cyan-400 left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type={showNew ? "text" : "password"}
+                required
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full py-3 pl-10 pr-10 rounded-xl glass-input placeholder:text-slate-500 font-mono"
+              />
               <button
-                className="bg-[#71ABE0] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
-                type="submit"
-                disabled={loading}
+                type="button"
+                onClick={() => setShowNew(!showNew)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400"
               >
-                {loading ? "Loading..." : "Update Password"}
+                {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
-            </Form.Item>
-          </Form>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-slate-300 font-mono mb-1.5">Confirm New Password</label>
+            <div className="relative">
+              <Lock className="absolute w-4 h-4 text-cyan-400 left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type={showConfirm ? "text" : "password"}
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full py-3 pl-10 pr-10 rounded-xl glass-input placeholder:text-slate-500 font-mono"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm(!showConfirm)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400"
+              >
+                {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 mt-2 text-xs font-bold rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <span className="font-mono">Updating Security Hash...</span>
+            ) : (
+              <>
+                <ShieldCheck className="w-4 h-4" />
+                <span>UPDATE PASSWORD & AUTHORIZE</span>
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="pt-2 border-t border-slate-800 text-center">
+          <Link
+            to="/sign-in"
+            className="text-xs font-mono text-slate-400 hover:text-cyan-400 transition-colors"
+          >
+            Return to Authorization Console
+          </Link>
         </div>
       </div>
     </div>

@@ -1,99 +1,126 @@
-import { Checkbox, Form, Input, Typography } from "antd";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import brandlogo from "../../../assets/image/stone-logo.png";
+import { Sparkles, Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [showpassword, setShowpassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowpassword(!showpassword)
-  };
-
-  const onFinish = (values) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setLoading(true);
-    // Simulating login without actual API call
     setTimeout(() => {
       setLoading(false);
       navigate("/dashboard");
-    }, 1500);
+    }, 1200);
   };
 
   return (
-    <div className="bg-[#f9fafb]">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-between w-full gap-2 mx-auto md:max-w-screen-md md:flex-row md:gap-20">
-          <div className="md:h-[100vh] w-full  flex items-center justify-center ">
-            <Form
-              name="login"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              layout="vertical"
-              className="py-5 md:py-12 mx-2 md:mx-0 px-6 md:px-10 rounded-2xl w-[580px] h-[525px] bg-white border-2 border-[#eef6ff] "
-            >
-         <div className="flex justify-center ">
-           <img src={brandlogo} className="w-40 h-40" alt="brandlogo"/>
-         </div>
-              <div className="text-center ">
-                <Typography.Text className="text-base text-center text-black ">
-                  Please enter your email and password to continue
-                </Typography.Text>
-              </div>
-              <Form.Item name="email" label={<p className=" text-md">Email</p>}>
-                <Input
-                  // required
-                  className=" text-md"
-                  placeholder="Your Email"
-                />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                label={<p className=" text-md">Password</p>}
-              >
-                <div className="relative flex items-center justify-center">
-                  <Input
-                    // required
-                    className=" text-md"
-                    type={showpassword ? "password" : "text"}
-                    placeholder="Password"
-                  />
-                  <div className="absolute right-0 flex justify-center px-3">
-                    <button onClick={togglePasswordVisibility} type="button">
-                      {showpassword ? (
-                        <FaRegEyeSlash className="" />
-                      ) : (
-                        <FaRegEye className="" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </Form.Item>
-              <div className="flex items-center justify-between my-2">
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox className="text-black text-md hover:text-black">
-                    Remember Password
-                  </Checkbox>
-                </Form.Item>
-                <Link to="/forgate-password" className="">
-                  <p className="text-red-600 hover:text-red-600 text-md ">
-                    Forgate Password
-                  </p>
-                </Link>
-              </div>
-              <Form.Item className="my-5 text-center">
-                <button
-                  className="bg-[#71ABE0] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
-                  type="submit"
-                  disabled={loading}
-                >
-                  Sign in
-                </button>
-              </Form.Item>
-            </Form>
+    <div className="flex items-center justify-center min-h-screen bg-[#07090E] p-4 relative overflow-hidden text-slate-100">
+      {/* Ambient background glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md p-8 rounded-3xl glass-panel relative z-10 space-y-6 border border-cyan-500/20 shadow-[0_0_35px_rgba(0,240,255,0.12)]">
+        {/* Brand Header */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 shadow-[0_0_20px_rgba(0,240,255,0.4)] mb-2">
+            <Sparkles className="w-8 h-8 text-black" />
           </div>
+          <h1 className="text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 glow-text-cyan">
+            AETHER AI
+          </h1>
+          <p className="text-xs text-slate-400 font-mono">
+            Master Control Center • Restricted Authentication Enclave
+          </p>
+        </div>
+
+        {/* Sign In Form */}
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <div>
+            <label className="block text-slate-300 font-mono mb-1.5">Root Email Address</label>
+            <div className="relative">
+              <Mail className="absolute w-4 h-4 text-cyan-400 left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@aether.ai"
+                className="w-full py-3 pl-10 pr-4 rounded-xl glass-input placeholder:text-slate-500 font-mono"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-slate-300 font-mono mb-1.5">Security Password</label>
+            <div className="relative">
+              <Lock className="absolute w-4 h-4 text-cyan-400 left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••••••"
+                className="w-full py-3 pl-10 pr-10 rounded-xl glass-input placeholder:text-slate-500 font-mono"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Remember & Forgot Password */}
+          <div className="flex items-center justify-between pt-1">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="w-4 h-4 rounded bg-slate-900 border-slate-700 text-cyan-500 focus:ring-cyan-500/20"
+              />
+              <span className="text-slate-400 text-[11px] font-mono">Persist Session</span>
+            </label>
+
+            <Link
+              to="/forgate-password"
+              className="text-xs font-mono text-cyan-400 hover:text-cyan-300 hover:underline transition-all"
+            >
+              Reset Credentials?
+            </Link>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 mt-2 text-xs font-bold rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <span className="font-mono">Decrypting & Authenticating...</span>
+            ) : (
+              <>
+                <span>AUTHORIZE ACCESS</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Security Badge */}
+        <div className="pt-2 border-t border-slate-800 text-center">
+          <p className="text-[10px] text-slate-500 font-mono flex items-center justify-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            256-Bit Neural Encrypted Connection
+          </p>
         </div>
       </div>
     </div>
